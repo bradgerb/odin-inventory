@@ -6,5 +6,8 @@
   <body>
     <%- include("partials/errors.ejs") %>
     <div>Hello world</div>
+    <% games.forEach((game) => { %>
+      <li><%= game.title %></li>
+    <% }) %>
   </body>
 </html>

@@ -1,4 +1,4 @@
-// const db = require ('../db/queries');
+const db = require ('../db/queries');
 // const CustomNotFoundError = require("../errors/CustomNotFoundError");
 // const { body, validationResult, matchedData, query } = require("express-validator");
 
@@ -25,8 +25,10 @@
 //   res.render('index', {messages: messages});
 // };
 
-exports.indexGet = (req, res) => {
+exports.indexGet = async (req, res) => {
+  example = await db.getAllTitles();
   res.render("index", {
     title: "Hello World",
+    games: example,
   });
 };

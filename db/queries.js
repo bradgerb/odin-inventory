@@ -1,7 +1,7 @@
 const pool = require("./pool");
 
-async function getAllMessages() {
-  const { rows } = await pool.query("SELECT * FROM <<<tablename>>>");
+async function getAllTitles() {
+  const { rows } = await pool.query("SELECT title FROM games");
   return rows;
 }
 
@@ -10,6 +10,6 @@ async function insertMessage(message, username, date) {
 }
 
 module.exports = {
-  getAllMessages,
+  getAllTitles,
   insertMessage
 };
