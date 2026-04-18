@@ -26,9 +26,9 @@ const db = require ('../db/queries');
 // };
 
 exports.indexGet = async (req, res) => {
-  example = await db.getAllTitles();
+  allInfo = await db.getAllGameInfo();
   res.render("index", {
     title: "Hello World",
-    games: example,
+    games: allInfo,
   });
 };
