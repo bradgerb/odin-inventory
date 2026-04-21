@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="../styles.css">
   </head>
   <body>
+    <%- include("partials/navbar.ejs") %>
     <%- include("partials/errors.ejs") %>
-    <div>Hello world</div>
     <% games.forEach((game) => { %>
       <li>title = <%= game.title %>, dev = <%= game.dev_name %>, genre = <%= game.genre_name %>, price = $<%= game.price %>, stock = <%= game.stock %></li>
     <% }) %>

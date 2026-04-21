@@ -1,18 +1,16 @@
 const db = require ('../db/queries');
-// const CustomNotFoundError = require("../errors/CustomNotFoundError");
-// const { body, validationResult, matchedData, query } = require("express-validator");
+const CustomNotFoundError = require("../errors/CustomNotFoundError");
+const { body, validationResult, matchedData, query } = require("express-validator");
 
-// const alphaErr = "must only contain letters.";
-// const lengthErr = "must be between 1 and 10 characters.";
-// const msgLengthErr = "must be between 1 and 250 characters.";
+const alphaErr = "must only contain letters.";
+const lengthErr = "must be between 1 and 50 characters.";
 
-// const validateMessage = [
-//     body("author").trim()
-//       .isAlpha().withMessage(`Name ${alphaErr}`)
-//       .isLength({ min: 1, max: 10 }).withMessage(`Name ${lengthErr}`),
-//     body("message").trim()
-//       .isLength({ min: 1, max: 250 }).withMessage(`Message ${msgLengthErr}`),
-// ];
+const validateSearch = [
+    // console.log(body("search")),
+    body("search").trim()
+      .isAlpha('en-US', { ignore: ' ' }).withMessage(`Name ${alphaErr}`)
+      .isLength({ min: 1, max: 50 }).withMessage(`Name ${lengthErr}`),
+];
 
 // const getMessages = async (req, res) => {
 
@@ -32,3 +30,18 @@ exports.indexGet = async (req, res) => {
     games: allInfo,
   });
 };
+
+exports.indexPost = [
+  validateSearch,
+  async (req, res) => {
+    const { search } = matchedData(req);
+    const errors = validationResult(req);
+    console.log(search);
+    searchedInfo = await db.getSearchedInfo(search);
+    // console.log(searchedInfo);
+    res.render("index", {
+      title: "Hello Search",
+      games: searchedInfo,
+    });
+  }
+]
