@@ -39,9 +39,15 @@ exports.indexPost = [
     }
     const errors = validationResult(req);
     searchedInfo = await db.getSearchedInfo(searchFor, searchTerm, inStockOnly);
-    res.render("index", {
-      title: "Hello Search",
-      games: searchedInfo,
-    });
+    if(searchedInfo.length != 0){
+      res.render("index", {
+        title: "Hello Search",
+        games: searchedInfo,
+      });
+    } else {
+        res.render("noData", {
+          title: "No data",
+        });
+    }
   }
 ]
