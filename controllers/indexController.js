@@ -6,22 +6,10 @@ const alphaErr = "must only contain letters.";
 const lengthErr = "must be between 1 and 50 characters.";
 
 const validateSearch = [
-    // console.log(body("search")),
-    body("search").trim()
+    body("searchTerm").trim()
       .isAlpha('en-US', { ignore: ' ' }).withMessage(`Name ${alphaErr}`)
       .isLength({ min: 1, max: 50 }).withMessage(`Name ${lengthErr}`),
 ];
-
-// const getMessages = async (req, res) => {
-
-//   const messages = await db.getAllMessages();
-
-//   if (!messages) {
-//     throw new CustomNotFoundError("Messages not found");
-//   }
-
-//   res.render('index', {messages: messages});
-// };
 
 exports.indexGet = async (req, res) => {
   allInfo = await db.getAllGameInfo();
@@ -34,11 +22,10 @@ exports.indexGet = async (req, res) => {
 exports.indexPost = [
   validateSearch,
   async (req, res) => {
-    const { search } = matchedData(req);
+    const searchTerm = matchedData(req).searchTerm;
+    const searchFor = req.body.searchFor;
     const errors = validationResult(req);
-    console.log(search);
-    searchedInfo = await db.getSearchedInfo(search);
-    // console.log(searchedInfo);
+    searchedInfo = await db.getSearchedInfo(searchFor, searchTerm);
     res.render("index", {
       title: "Hello Search",
       games: searchedInfo,
