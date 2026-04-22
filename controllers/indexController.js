@@ -11,17 +11,25 @@ const validateSearch = [
       .isLength({ min: 1, max: 50 }).withMessage(`Name ${lengthErr}`),
 ];
 
-exports.indexGet = async (req, res) => {
+async function getAllData(req, res) {
   allInfo = await db.getAllGameInfo();
   res.render("index", {
     title: "Hello World",
     games: allInfo,
   });
+}
+
+exports.indexGet = async (req, res) => {
+  getAllData(req, res);
 };
 
 exports.indexPost = [
   validateSearch,
   async (req, res) => {
+    if(!req.body.searchTerm) {
+      getAllData(req, res);
+      return
+    }
     const searchTerm = matchedData(req).searchTerm;
     const searchFor = req.body.searchFor;
     const inStock = req.body.inStock;
@@ -29,7 +37,6 @@ exports.indexPost = [
     if(inStock) {
       inStockOnly = 'AND stock > 0';
     }
-    console.log(inStockOnly);
     const errors = validationResult(req);
     searchedInfo = await db.getSearchedInfo(searchFor, searchTerm, inStockOnly);
     res.render("index", {
