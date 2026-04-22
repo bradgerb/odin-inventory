@@ -4,10 +4,25 @@
     <link rel="stylesheet" href="../styles.css">
   </head>
   <body>
-    <%- include("partials/navbar.ejs") %>
-    <%- include("partials/errors.ejs") %>
-    <% games.forEach((game) => { %>
-      <li>title = <%= game.title %>, dev = <%= game.dev_name %>, genre = <%= game.genre_name %>, price = $<%= game.price %>, stock = <%= game.stock %></li>
-    <% }) %>
+      <%- include("partials/navbar.ejs") %>
+      <!-- <%- include("partials/errors.ejs") %> -->
+     <div class="gridContainer">
+        <div class="grid">
+          <div class="gridTitle">Title:</div>
+          <div class="gridTitle">Developer(s):</div>
+          <div class="gridTitle">Genre(s):</div>
+          <div class="gridTitle">Price:</div>
+          <div class="gridTitle">Stock:</div>
+            <% games.forEach((game) => { %>
+              <div><%= game.title %></div>
+              <div><%= game.dev_name %></div>
+              <div><%= game.genre_name %></div>
+              <div>$<%= game.price %></div>
+              <div><%= game.stock %></div>
+            <% }) %>
+        </div>
+      </div>
+      <%- include("partials/footer.ejs") %>
+
   </body>
 </html>

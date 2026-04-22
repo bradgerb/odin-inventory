@@ -2,6 +2,10 @@
     margin: 0;
 }
 
+body {
+    height: 100dvh;
+}
+
 .navbar {
     display: flex;
     justify-content: space-around; 
@@ -15,4 +19,47 @@
     padding: 0.5rem 1rem;
     border: 1px solid white;
     border-radius: 4px;
+}
+
+.footer {
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    justify-content: center;
+    width: 100vw;
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+}
+
+.gridContainer {
+    background-color: #bbbbbb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 90dvh;
+}
+
+.grid {
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(5, max-content);
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.gridTitle {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid black;
+}
+
+.grid > div {
+    padding: 8px, 4px;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    padding: 10px;
 }
