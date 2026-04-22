@@ -17,7 +17,7 @@ async function getAllGameInfo() {
   return rows
 }
 
-async function getSearchedInfo(searchFor, searchTerm) {
+async function getSearchedInfo(searchFor, searchTerm, inStockOnly) {
   const { rows } = await pool.query(
     `SELECT DISTINCT title, dev_name, genre_name, price, stock FROM games \
     JOIN game_devs ON games.game_id = game_devs.game_id \
@@ -25,7 +25,7 @@ async function getSearchedInfo(searchFor, searchTerm) {
     JOIN game_genres ON games.game_id = game_genres.game_id \
     JOIN genres ON game_genres.genre_id = genres.genre_id \
     JOIN prices ON games.price_id = prices.price_ID \
-    WHERE ${searchFor} ILIKE '%${searchTerm}%';`
+    WHERE ${searchFor} ILIKE '%${searchTerm}%' ${inStockOnly};`
   )
   return rows
 }

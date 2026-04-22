@@ -24,8 +24,14 @@ exports.indexPost = [
   async (req, res) => {
     const searchTerm = matchedData(req).searchTerm;
     const searchFor = req.body.searchFor;
+    const inStock = req.body.inStock;
+    let inStockOnly = '';
+    if(inStock) {
+      inStockOnly = 'AND stock > 0';
+    }
+    console.log(inStockOnly);
     const errors = validationResult(req);
-    searchedInfo = await db.getSearchedInfo(searchFor, searchTerm);
+    searchedInfo = await db.getSearchedInfo(searchFor, searchTerm, inStockOnly);
     res.render("index", {
       title: "Hello Search",
       games: searchedInfo,
