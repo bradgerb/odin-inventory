@@ -25,25 +25,22 @@ async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   const workingData = await db.getSearchedTitles(searchFor, searchTerm, inStockOnly);
   for(let i = 0; i < workingData.length; i++ ){
     formatedData.push(workingData[i]);
-    formatedData[i].dev_name = await getDevsFromTitle(workingData[i].title);
-    formatedData[i].genre_name = await getGenresFromTitle(workingData[i].title);
-    await console.log(formatedData);
+
+    const allDevsUnformatted = await db.getDevsFromTitle(workingData[i].title);
+    let formattedDevs = [];
+    for(let n = 0; n < allDevsUnformatted.length; n++) {
+      formattedDevs.push(allDevsUnformatted[n].dev_name);
+    }
+    formatedData[i].dev_name = formattedDevs.join(', ');
+
+    const allGenresUnformatted = await db.getGenresFromTitle(workingData[i].title);
+    let formattedGenres = [];
+    for(let n = 0; n < allGenresUnformatted.length; n++) {
+      formattedGenres.push(allGenresUnformatted[n].genre_name);
+    }
+    formatedData[i].genre_name = formattedGenres.join(', ');
   }  
   return formatedData
-}
-
-async function getDevsFromTitle(title) {
-  let devs = [];
-  const getDevs = await db.getDevsFromTitle(title);
-  devs.push(getDevs);
-  return devs
-}
-
-async function getGenresFromTitle(title) {
-  let genres = [];
-  const getGenres = await db.getGenresFromTitle(title);
-  genres.push(getGenres);
-  return genres
 }
 
 exports.indexGet = async (req, res) => {
