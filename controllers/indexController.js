@@ -20,7 +20,7 @@ async function getAllData(req, res) {
 async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   let formatedData = [];
   const workingData = await db.getSearchedTitles(searchFor, searchTerm, inStockOnly);
-  
+
   for(let i = 0; i < workingData.length; i++ ){
     formatedData.push(workingData[i]);
 
@@ -79,4 +79,34 @@ exports.indexPost = [
         });
     }
   }
-]
+];
+
+exports.indexGamesGet = (req, res)=> {
+  res.render("games", {
+    title: "Update games",
+  });
+};
+
+exports.indexDevsGet = (req, res)=> {
+  res.render("devs", {
+    title: "Update devs",
+  });
+};
+
+exports.indexGenresGet = (req, res)=> {
+  res.render("genres", {
+    title: "Update genres",
+  });
+};
+
+exports.indexPricesGet = (req, res)=> {
+  res.render("prices", {
+    title: "Update prices",
+  });
+};
+
+exports.indexStockGet = (req, res)=> {
+  res.render("stock", {
+    title: "Update stock",
+  });
+};
