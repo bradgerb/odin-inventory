@@ -2,13 +2,8 @@ const db = require ('../db/queries');
 const CustomNotFoundError = require("../errors/CustomNotFoundError");
 const { body, validationResult, matchedData, query } = require("express-validator");
 
-// const alphaErr = "must only contain letters.";
-// const lengthErr = "must be between 1 and 50 characters.";
-
 const validateSearch = [
     body("searchTerm").trim().escape()
-      // .isAlpha('en-US', { ignore: ' ' }).withMessage(`Name ${alphaErr}`)
-      // .isLength({ min: 1, max: 50 }).withMessage(`Name ${lengthErr}`),
 ];
 
 async function getAllData(req, res) {
@@ -30,8 +25,6 @@ async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   const workingData = await db.getSearchedTitles(searchFor, searchTerm, inStockOnly);
   for(let i = 0; i < workingData.length; i++ ){
     formatedData.push(workingData[i]);
-
-    // console.log(workingData);
 
     const allDevsUnformatted = await db.getDevsFromTitle(workingData[i].title);
     let formattedDevs = [];
@@ -74,9 +67,6 @@ exports.indexPost = [
     const searchFor = req.body.searchFor;
     let inStockOnly = checkInStock(req.body.inStock);
 
-    // const errors = validationResult(req);
-    // console.log(errors);
-    // searchedInfo = await db.getSearchedInfo(searchFor, searchTerm, inStockOnly);
     searchedInfo = await fetchAndFormatData(searchFor, searchTerm, inStockOnly);
     if(searchedInfo.length != 0){
       res.render("index", {
