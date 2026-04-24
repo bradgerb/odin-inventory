@@ -12,7 +12,10 @@ const validateSearch = [
 ];
 
 async function getAllData(req, res) {
-  allInfo = await db.getAllGameInfo();
+  const searchFor = 'title';
+  const searchTerm = '';
+  const inStockOnly = checkInStock(req.body.inStock);
+  allInfo = await fetchAndFormatData(searchFor, searchTerm, inStockOnly);
   res.render("index", {
     title: "Hello World",
     games: allInfo,
@@ -22,9 +25,13 @@ async function getAllData(req, res) {
 async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   let formatedData = [];
 
+  console.log(searchFor, searchTerm, inStockOnly);
+
   const workingData = await db.getSearchedTitles(searchFor, searchTerm, inStockOnly);
   for(let i = 0; i < workingData.length; i++ ){
     formatedData.push(workingData[i]);
+
+    // console.log(workingData);
 
     const allDevsUnformatted = await db.getDevsFromTitle(workingData[i].title);
     let formattedDevs = [];
@@ -43,6 +50,15 @@ async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   return formatedData
 }
 
+const checkInStock = (input)=>{
+  const inStock = input;
+  let inStockOnly = '';
+  if(inStock) {
+    inStockOnly = 'AND stock > 0';
+  }
+  return inStockOnly
+}
+
 exports.indexGet = async (req, res) => {
   getAllData(req, res);
 };
@@ -56,11 +72,8 @@ exports.indexPost = [
     }
     const searchTerm = matchedData(req).searchTerm;
     const searchFor = req.body.searchFor;
-    const inStock = req.body.inStock;
-    let inStockOnly = '';
-    if(inStock) {
-      inStockOnly = 'AND stock > 0';
-    }
+    let inStockOnly = checkInStock(req.body.inStock);
+
     // const errors = validationResult(req);
     // console.log(errors);
     // searchedInfo = await db.getSearchedInfo(searchFor, searchTerm, inStockOnly);
