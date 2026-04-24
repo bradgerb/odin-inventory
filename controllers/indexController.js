@@ -9,20 +9,18 @@ const validateSearch = [
 async function getAllData(req, res) {
   const searchFor = 'title';
   const searchTerm = '';
-  const inStockOnly = checkInStock(req.body.inStock);
+  const inStockOnly = '';
   allInfo = await fetchAndFormatData(searchFor, searchTerm, inStockOnly);
   res.render("index", {
-    title: "Hello World",
+    title: "All data",
     games: allInfo,
   });
 }
 
 async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   let formatedData = [];
-
-  console.log(searchFor, searchTerm, inStockOnly);
-
   const workingData = await db.getSearchedTitles(searchFor, searchTerm, inStockOnly);
+  
   for(let i = 0; i < workingData.length; i++ ){
     formatedData.push(workingData[i]);
 
@@ -59,18 +57,20 @@ exports.indexGet = async (req, res) => {
 exports.indexPost = [
   validateSearch,
   async (req, res) => {
+    let searchTerm;
     if(!req.body.searchTerm) {
-      getAllData(req, res);
-      return
+      searchTerm = '';
+    } else {
+      searchTerm = matchedData(req).searchTerm;
     }
-    const searchTerm = matchedData(req).searchTerm;
+    
     const searchFor = req.body.searchFor;
     let inStockOnly = checkInStock(req.body.inStock);
 
     searchedInfo = await fetchAndFormatData(searchFor, searchTerm, inStockOnly);
     if(searchedInfo.length != 0){
       res.render("index", {
-        title: "Hello Search",
+        title: "Search results",
         games: searchedInfo,
       });
     } else {
