@@ -63,3 +63,11 @@ body {
     border-top: 1px solid black;
     padding: 10px;
 }
+
+.formContainer {
+    background-color: #bbbbbb;
+    display: flex;
+    min-height: 90vh;
+    justify-content: center;
+    align-items: center;
+}

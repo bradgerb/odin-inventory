@@ -5,5 +5,13 @@
   </head>
   <body>
     <%- include("partials/navbar.ejs") %>
+    <div class="formContainer">
+        <form method="POST" action="/addDev">
+            <label for="newDev">Add new developer:</label>
+            <input type="text" id="newDev" name="newDev">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+    <%- include("partials/footer.ejs") %>
   </body>
 </html>

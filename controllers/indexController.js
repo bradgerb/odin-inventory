@@ -81,31 +81,36 @@ exports.indexPost = [
   }
 ];
 
-exports.indexGamesGet = (req, res)=> {
+exports.gamesGet = (req, res)=> {
   res.render("games", {
     title: "Update games",
   });
 };
 
-exports.indexDevsGet = (req, res)=> {
+exports.devsGet = (req, res)=> {
   res.render("devs", {
     title: "Update devs",
   });
 };
 
-exports.indexGenresGet = (req, res)=> {
+exports.addDevsPost = (req, res)=> {
+  console.log(req.body.newDev);
+  res.redirect('/devs');
+};
+
+exports.genresGet = (req, res)=> {
   res.render("genres", {
     title: "Update genres",
   });
 };
 
-exports.indexPricesGet = (req, res)=> {
+exports.pricesGet = (req, res)=> {
   res.render("prices", {
     title: "Update prices",
   });
 };
 
-exports.indexStockGet = (req, res)=> {
+exports.stockGet = (req, res)=> {
   res.render("stock", {
     title: "Update stock",
   });
