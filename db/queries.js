@@ -54,20 +54,28 @@ async function getDevsFromTitle(title) {
   return rows
 }
 
+async function getDevs() {
+  const { rows } = await pool.query(
+    `SELECT DISTINCT dev_name FROM devs \
+    ORDER BY dev_name;`
+  )
+  return rows
+}
+
+async function addDev(dev_name) {
+  await pool.query("INSERT INTO devs (dev_name) VALUES ($1)", [dev_name]);
+}
+
+async function removeDev(dev_name) {
+  await pool.query(`DELETE FROM devs WHERE dev_name = '${dev_name}'`);
+}
+
 async function getGenresFromTitle(title) {
   const { rows } = await pool.query(
     `SELECT DISTINCT genre_name FROM games \
     JOIN game_genres ON games.game_id = game_genres.game_id \
     JOIN genres ON game_genres.genre_id = genres.genre_id \
     WHERE title = '${title}';`
-  )
-  return rows
-}
-
-async function getDevs() {
-  const { rows } = await pool.query(
-    `SELECT DISTINCT dev_name FROM devs \
-    ORDER BY dev_name;`
   )
   return rows
 }
@@ -80,6 +88,14 @@ async function getGenres() {
   return rows
 }
 
+async function addGenre(genre_name) {
+  await pool.query("INSERT INTO genres (genre_name) VALUES ($1)", [genre_name]);
+}
+
+async function removeGenre(genre_name) {
+  await pool.query(`DELETE FROM genres WHERE genre_name = '${genre_name}'`);
+}
+
 async function getPrices() {
   const { rows } = await pool.query(
     `SELECT DISTINCT price FROM prices \
@@ -88,20 +104,30 @@ async function getPrices() {
   return rows
 }
 
-async function insertMessage(message, username, date) {
-  await pool.query("INSERT INTO <<<tablename>>> (message, username, date) VALUES ($1, $2, $3)", [message, username, date]);
+async function addPrice(price) {
+  await pool.query("INSERT INTO prices (price) VALUES ($1)", [price]);
+}
+
+async function removePrice(price) {
+  await pool.query(`DELETE FROM prices WHERE price = '${price}'`);
 }
 
 module.exports = {
   getAllTitles,
-  insertMessage,
-  // getAllGameInfo,
-  // getSearchedInfo,
   getSearchedTitles,
+  
   getDevsFromTitle,
-  getGenresFromTitle,
   getDevs,
+  addDev,
+  removeDev,
+
+  getGenresFromTitle,
   getGenres,
-  getPrices
+  addGenre,
+  removeGenre,
+
+  getPrices,
+  addPrice,
+  removePrice
 };
 

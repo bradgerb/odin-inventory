@@ -93,33 +93,33 @@ exports.updateGet = async (req, res)=> {
   });
 };
 
-exports.addDevPost = (req, res)=> {
-  console.log(req.body.newDev);
+exports.addDevPost = async (req, res)=> {
+  await db.addDev(req.body.newDev);
   res.redirect('/update');
 };
 
-exports.removeDevPost = (req, res)=> {
-  console.log(req.body.removeDev);
+exports.removeDevPost = async (req, res)=> {
+  await db.removeDev(req.body.removeDev);
   res.redirect('/update');
 };
 
-exports.addGenrePost = (req, res)=> {
-  console.log(req.body.newGenre);
+exports.addGenrePost = async (req, res)=> {
+  await db.addGenre(req.body.newGenre);
   res.redirect('/update');
 };
 
-exports.removeGenrePost = (req, res)=> {
-  console.log(req.body.removeGenre);
+exports.removeGenrePost = async (req, res)=> {
+  await db.removeGenre(req.body.removeGenre);
   res.redirect('/update');
 };
 
-exports.addPricePost = (req, res)=> {
-  console.log(req.body.newPrice);
+exports.addPricePost = async (req, res)=> {
+  await db.addPrice(req.body.newPrice);
   res.redirect('/update');
 };
 
-exports.removePricePost = (req, res)=> {
-  console.log(req.body.removePrice);
+exports.removePricePost = async (req, res)=> {
+  await db.removePrice(req.body.removePrice);
   res.redirect('/update');
 };
 
