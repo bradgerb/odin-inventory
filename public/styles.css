@@ -9,16 +9,22 @@ body {
 .navbar {
     display: flex;
     justify-content: space-around; 
+    align-items: center;
     background-color: #333;
     padding: 1rem;
 }
 
-.navbar > a, .navbar > form {
+.navbar > div > a, .navbar > form {
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border: 1px solid white;
     border-radius: 4px;
+}
+
+.navLinks {
+    display: flex;
+    gap: 10px;
 }
 
 .footer {
