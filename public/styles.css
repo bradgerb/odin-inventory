@@ -70,10 +70,18 @@ body {
     padding: 10px;
 }
 
-.formContainer {
+.formContainers {
     background-color: #bbbbbb;
     display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
     min-height: 90vh;
     justify-content: center;
     align-items: center;
+}
+
+.formContainer {
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 20px;
 }

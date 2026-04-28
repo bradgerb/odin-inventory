@@ -5,13 +5,58 @@
   </head>
   <body>
     <%- include("partials/navbar.ejs") %>
-    <div class="formContainer">
+
+    <div class="formContainers">
+      <div class="formContainer">
         <form method="POST" action="/addDev">
-            <label for="newDev">Add new developer:</label>
-            <input type="text" id="newDev" name="newDev">
-            <button type="submit">Add</button>
+          <label for="newDev">Add new developer:</label>
+          <input type="text" id="newDev" name="newDev">
+          <button type="submit">Add</button>
         </form>
+      </div>
+    
+      <div class="formContainer">
+        <form method="POST" action="/addGenre">
+          <label for="newGenre">Add new genre:</label>
+          <input type="text" id="newGenre" name="newGenre">
+          <button type="submit">Add</button>
+        </form>
+      </div>
+
+      <div class="formContainer">
+        <form method="POST" action="/addPrice">
+          <label for="newPrice">Add new price:</label>
+          <input type="text" id="newPrice" name="newPrice">
+          <button type="submit">Add</button>
+        </form>
+      </div>
+
+      <div class="formContainer">
+        <form method="POST" action="/addStock">
+          <label for="newStock">Add new stock:</label>
+          <input type="text" id="newStock" name="newStock">
+          <button type="submit">Add</button>
+        </form>
+      </div>
+
+      <!-- <div class="formContainer">
+        <form method="POST" action="/addGenre">
+          <label for="newGenre">Add new genre:</label>
+          <input type="text" id="newGenre" name="newGenre">
+          <button type="submit">Add</button>
+        </form>
+      </div>
+
+      <div class="formContainer">
+        <form method="POST" action="/addGenre">
+          <label for="newGenre">Add new genre:</label>
+          <input type="text" id="newGenre" name="newGenre">
+          <button type="submit">Add</button>
+        </form>
+      </div> -->
+          
     </div>
+
     <%- include("partials/footer.ejs") %>
   </body>
 </html>

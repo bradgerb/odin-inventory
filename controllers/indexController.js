@@ -83,11 +83,26 @@ exports.indexPost = [
 
 exports.updateGet = (req, res)=> {
   res.render("update", {
-    title: "Update devs",
+    title: "Update database",
   });
 };
 
-exports.addDevsPost = (req, res)=> {
+exports.addDevPost = (req, res)=> {
   console.log(req.body.newDev);
+  res.redirect('/update');
+};
+
+exports.addGenrePost = (req, res)=> {
+  console.log(req.body.newGenre);
+  res.redirect('/update');
+};
+
+exports.addPricePost = (req, res)=> {
+  console.log(req.body.newPrice);
+  res.redirect('/update');
+};
+
+exports.addStockPost = (req, res)=> {
+  console.log(req.body.newStock);
   res.redirect('/update');
 };
