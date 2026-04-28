@@ -6,8 +6,11 @@ indexRouter.get("/", indexController.indexGet);
 indexRouter.post("/", indexController.indexPost);
 indexRouter.get("/update", indexController.updateGet);
 indexRouter.post("/addDev", indexController.addDevPost);
+indexRouter.post("/removeDev", indexController.removeDevPost);
 indexRouter.post("/addGenre", indexController.addGenrePost);
+indexRouter.post("/removeGenre", indexController.removeGenrePost);
 indexRouter.post("/addPrice", indexController.addPricePost);
-indexRouter.post("/addStock", indexController.addStockPost);
+indexRouter.post("/removePrice", indexController.removePricePost);
+
 
 module.exports = indexRouter;

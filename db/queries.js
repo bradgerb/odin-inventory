@@ -17,18 +17,18 @@ async function getAllTitles() {
 //   return rows
 // }
 
-async function getSearchedInfo(searchFor, searchTerm, inStockOnly) {
-  const { rows } = await pool.query(
-    `SELECT DISTINCT title, dev_name, genre_name, price, stock FROM games \
-    JOIN game_devs ON games.game_id = game_devs.game_id \
-    JOIN devs ON game_devs.dev_id = devs.dev_id \
-    JOIN game_genres ON games.game_id = game_genres.game_id \
-    JOIN genres ON game_genres.genre_id = genres.genre_id \
-    JOIN prices ON games.price_id = prices.price_ID \
-    WHERE ${searchFor} ILIKE '%${searchTerm}%' ${inStockOnly};`
-  )
-  return rows
-}
+// async function getSearchedInfo(searchFor, searchTerm, inStockOnly) {
+//   const { rows } = await pool.query(
+//     `SELECT DISTINCT title, dev_name, genre_name, price, stock FROM games \
+//     JOIN game_devs ON games.game_id = game_devs.game_id \
+//     JOIN devs ON game_devs.dev_id = devs.dev_id \
+//     JOIN game_genres ON games.game_id = game_genres.game_id \
+//     JOIN genres ON game_genres.genre_id = genres.genre_id \
+//     JOIN prices ON games.price_id = prices.price_ID \
+//     WHERE ${searchFor} ILIKE '%${searchTerm}%' ${inStockOnly};`
+//   )
+//   return rows
+// }
 
 async function getSearchedTitles(searchFor, searchTerm, inStockOnly) {
   const { rows } = await pool.query(
@@ -38,7 +38,8 @@ async function getSearchedTitles(searchFor, searchTerm, inStockOnly) {
     JOIN game_genres ON games.game_id = game_genres.game_id \
     JOIN genres ON game_genres.genre_id = genres.genre_id \
     JOIN prices ON games.price_id = prices.price_ID \
-    WHERE ${searchFor} ILIKE '%${searchTerm}%' ${inStockOnly};`
+    WHERE ${searchFor} ILIKE '%${searchTerm}%' ${inStockOnly} \
+    ORDER BY title;`
   )
   return rows
 }
@@ -63,6 +64,30 @@ async function getGenresFromTitle(title) {
   return rows
 }
 
+async function getDevs() {
+  const { rows } = await pool.query(
+    `SELECT DISTINCT dev_name FROM devs \
+    ORDER BY dev_name;`
+  )
+  return rows
+}
+
+async function getGenres() {
+  const { rows } = await pool.query(
+    `SELECT DISTINCT genre_name FROM genres \
+    ORDER BY genre_name;`
+  )
+  return rows
+}
+
+async function getPrices() {
+  const { rows } = await pool.query(
+    `SELECT DISTINCT price FROM prices \
+    ORDER BY price;`
+  )
+  return rows
+}
+
 async function insertMessage(message, username, date) {
   await pool.query("INSERT INTO <<<tablename>>> (message, username, date) VALUES ($1, $2, $3)", [message, username, date]);
 }
@@ -71,9 +96,12 @@ module.exports = {
   getAllTitles,
   insertMessage,
   // getAllGameInfo,
-  getSearchedInfo,
+  // getSearchedInfo,
   getSearchedTitles,
   getDevsFromTitle,
-  getGenresFromTitle
+  getGenresFromTitle,
+  getDevs,
+  getGenres,
+  getPrices
 };
 

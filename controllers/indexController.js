@@ -81,9 +81,15 @@ exports.indexPost = [
   }
 ];
 
-exports.updateGet = (req, res)=> {
+exports.updateGet = async (req, res)=> {
+  devs = await db.getDevs();
+  genres = await db.getGenres();
+  prices = await db.getPrices();
   res.render("update", {
     title: "Update database",
+    devs: devs,
+    genres: genres,
+    prices: prices,
   });
 };
 
@@ -92,8 +98,18 @@ exports.addDevPost = (req, res)=> {
   res.redirect('/update');
 };
 
+exports.removeDevPost = (req, res)=> {
+  console.log(req.body.removeDev);
+  res.redirect('/update');
+};
+
 exports.addGenrePost = (req, res)=> {
   console.log(req.body.newGenre);
+  res.redirect('/update');
+};
+
+exports.removeGenrePost = (req, res)=> {
+  console.log(req.body.removeGenre);
   res.redirect('/update');
 };
 
@@ -102,7 +118,8 @@ exports.addPricePost = (req, res)=> {
   res.redirect('/update');
 };
 
-exports.addStockPost = (req, res)=> {
-  console.log(req.body.newStock);
+exports.removePricePost = (req, res)=> {
+  console.log(req.body.removePrice);
   res.redirect('/update');
 };
+

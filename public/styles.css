@@ -81,6 +81,9 @@ body {
 }
 
 .formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     padding: 15px;
     border: 1px solid black;
     border-radius: 20px;
