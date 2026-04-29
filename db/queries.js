@@ -1,10 +1,5 @@
 const pool = require("./pool");
 
-async function getAllTitles() {
-  const { rows } = await pool.query("SELECT title FROM games");
-  return rows;
-}
-
 // async function getAllGameInfo() {
 //   const { rows } = await pool.query(
 //     "SELECT DISTINCT title, dev_name, genre_name, price, stock FROM games \
@@ -33,11 +28,11 @@ async function getAllTitles() {
 async function getSearchedTitles(searchFor, searchTerm, inStockOnly) {
   const { rows } = await pool.query(
     `SELECT DISTINCT title, price, stock FROM games \
-    JOIN game_devs ON games.game_id = game_devs.game_id \
-    JOIN devs ON game_devs.dev_id = devs.dev_id \
-    JOIN game_genres ON games.game_id = game_genres.game_id \
-    JOIN genres ON game_genres.genre_id = genres.genre_id \
-    JOIN prices ON games.price_id = prices.price_ID \
+    LEFT JOIN game_devs ON games.game_id = game_devs.game_id \
+    LEFT JOIN devs ON game_devs.dev_id = devs.dev_id \
+    LEFT JOIN game_genres ON games.game_id = game_genres.game_id \
+    LEFT JOIN genres ON game_genres.genre_id = genres.genre_id \
+    LEFT JOIN prices ON games.price_id = prices.price_ID \
     WHERE ${searchFor} ILIKE '%${searchTerm}%' ${inStockOnly} \
     ORDER BY title;`
   )
@@ -52,6 +47,22 @@ async function getDevsFromTitle(title) {
     WHERE title = '${title}';`
   )
   return rows
+}
+
+async function getGames() {
+  const { rows } = await pool.query(
+    `SELECT title FROM games \
+    ORDER BY title;`
+  )
+  return rows;
+}
+
+async function addGame(title) {
+  await pool.query("INSERT INTO games (title) VALUES ($1)", [title]);
+}
+
+async function removeGame(title) {
+  await pool.query(`DELETE FROM games WHERE title = '${title}'`);
 }
 
 async function getDevs() {
@@ -113,8 +124,11 @@ async function removePrice(price) {
 }
 
 module.exports = {
-  getAllTitles,
   getSearchedTitles,
+
+  getGames,
+  addGame,
+  removeGame,
   
   getDevsFromTitle,
   getDevs,
@@ -130,4 +144,3 @@ module.exports = {
   addPrice,
   removePrice
 };
-

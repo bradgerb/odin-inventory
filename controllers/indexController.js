@@ -20,7 +20,7 @@ async function getAllData(req, res) {
 async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   let formatedData = [];
   const workingData = await db.getSearchedTitles(searchFor, searchTerm, inStockOnly);
-
+console.log(workingData);
   for(let i = 0; i < workingData.length; i++ ){
     formatedData.push(workingData[i]);
 
@@ -82,15 +82,27 @@ exports.indexPost = [
 ];
 
 exports.updateGet = async (req, res)=> {
+  games = await db.getGames();
   devs = await db.getDevs();
   genres = await db.getGenres();
   prices = await db.getPrices();
   res.render("update", {
     title: "Update database",
+    games: games,
     devs: devs,
     genres: genres,
     prices: prices,
   });
+};
+
+exports.addGamePost = async (req, res)=> {
+  await db.addGame(req.body.newGame);
+  res.redirect('/update');
+};
+
+exports.removeGamePost = async (req, res)=> {
+  await db.removeGame(req.body.removeGame);
+  res.redirect('/update');
 };
 
 exports.addDevPost = async (req, res)=> {

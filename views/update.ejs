@@ -8,6 +8,23 @@
 
     <div class="formContainers">
       <div class="formContainer">
+        <form method="POST" action="/addGame">
+          <label for="newGame">Add new game:</label>
+          <input type="text" id="newGame" name="newGame">
+          <button type="submit">Add</button>
+        </form>
+        <form method="POST" action="removeGame">
+          <label for="removeGame">Remove a game:</label>
+          <select name="removeGame" id="removeGame">
+            <% games.forEach((game) => { %>
+              <option value='<%= game.title %>''><%= game.title %></option>
+            <% }) %>
+            </select>
+          <button type="submit">Remove</button>
+        </form>
+      </div>
+
+      <div class="formContainer">
         <form method="POST" action="/addDev">
           <label for="newDev">Add new developer:</label>
           <input type="text" id="newDev" name="newDev">
