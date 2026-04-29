@@ -88,3 +88,12 @@ body {
     border: 1px solid black;
     border-radius: 20px;
 }
+
+.checkboxContainer, .priceAndStockContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.biggerButton {
+    width: 100%;
+}

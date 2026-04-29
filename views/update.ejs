@@ -8,11 +8,36 @@
 
     <div class="formContainers">
       <div class="formContainer">
+        <div>Add new game:</div>
         <form method="POST" action="/addGame">
-          <label for="newGame">Add new game:</label>
-          <input type="text" id="newGame" name="newGame">
-          <button type="submit">Add</button>
-        </form>
+          <label for="newGame">Title:</label>
+          <input type="text" id="newGame" name="newGame" required><br><br>
+          <div class="checkboxContainer">
+            <div>Developer(s):<br>
+            <% devs.forEach((dev) => { %>
+              <label for="<%= dev.dev_name %>"><%= dev.dev_name %></label>
+              <input type="checkbox" id="<%= dev.dev_name %>" name="<%= dev.dev_name %>" value="<%= dev.dev_name %>"><br>
+              <% }) %>
+            </div><br>
+            <div>Genre(s):<br>
+            <% genres.forEach((genre) => { %>
+              <label for="<%= genre.genre_name %>"><%= genre.genre_name %></label>
+              <input type="checkbox" id="<%= genre.genre_name %>" name="<%= genre.genre_name %>" value="<%= genre.genre_name %>"><br>
+              <% }) %>
+            </div><br>
+          </div><br>
+          <div class="priceAndStockContainer">
+            <label for="price">Price:</label>
+            <select name="price" id="price">
+              <% prices.forEach((price) => { %>
+                <option value='<%= price.price %>''><%= price.price %></option>
+              <% }) %>
+            </select>
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" min="0" value="0">
+          </div><br>
+          <button type="submit" class="biggerButton">Add</button>
+        </form><br>
         <form method="POST" action="removeGame">
           <label for="removeGame">Remove a game:</label>
           <select name="removeGame" id="removeGame">
