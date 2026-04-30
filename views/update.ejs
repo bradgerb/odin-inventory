@@ -14,16 +14,20 @@
           <input type="text" id="newGame" name="newGame" required><br><br>
           <div class="checkboxContainer">
             <div>Developer(s):<br>
+            <% let devCount = 0 %>
             <% devs.forEach((dev) => { %>
-              <label for="<%= dev.dev_name %>"><%= dev.dev_name %></label>
-              <input type="checkbox" id="<%= dev.dev_name %>" name="<%= dev.dev_name %>" value="<%= dev.dev_name %>"><br>
-              <% }) %>
+              <input type="checkbox" id="dev_<%= devCount %>" name="dev_name" value="<%= dev.dev_name %>">
+              <label for="dev_<%= devCount %>"><%= dev.dev_name %></label><br>
+              <% devCount++ %>
+            <% }) %>
             </div><br>
             <div>Genre(s):<br>
+            <% let genreCount = 0 %>
             <% genres.forEach((genre) => { %>
-              <label for="<%= genre.genre_name %>"><%= genre.genre_name %></label>
-              <input type="checkbox" id="<%= genre.genre_name %>" name="<%= genre.genre_name %>" value="<%= genre.genre_name %>"><br>
-              <% }) %>
+              <input type="checkbox" id="genre_<%= genreCount %>" name="genre_name" value="<%= genre.genre_name %>">
+              <label for="genre_<%= genreCount %>"><%= genre.genre_name %></label><br>
+              <% genreCount++ %>
+            <% }) %>
             </div><br>
           </div><br>
           <div class="priceAndStockContainer">

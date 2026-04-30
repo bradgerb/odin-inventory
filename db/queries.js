@@ -57,12 +57,22 @@ async function getGames() {
   return rows;
 }
 
-async function addGame(title) {
-  await pool.query("INSERT INTO games (title) VALUES ($1)", [title]);
+async function addGame(title, newDev, newGenre, price, stock) {
+  const { rows } = await pool.query(
+    "INSERT INTO games (title, stock) VALUES ($1, $2) RETURNING game_id;", [title, stock]
+  )
+  return rows
 }
 
 async function removeGame(title) {
   await pool.query(`DELETE FROM games WHERE title = '${title}'`);
+}
+
+async function getGameID(title) {
+  const { rows } = await pool.query(
+  `SELECT game_id FROM games WHERE title = ${title} ORDER BY game_id DESC LIMIT 1;`
+  )
+  return rows
 }
 
 async function getDevs() {
@@ -129,6 +139,7 @@ module.exports = {
   getGames,
   addGame,
   removeGame,
+  getGameID,
   
   getDevsFromTitle,
   getDevs,

@@ -20,7 +20,7 @@ async function getAllData(req, res) {
 async function fetchAndFormatData(searchFor, searchTerm, inStockOnly) {
   let formatedData = [];
   const workingData = await db.getSearchedTitles(searchFor, searchTerm, inStockOnly);
-console.log(workingData);
+
   for(let i = 0; i < workingData.length; i++ ){
     formatedData.push(workingData[i]);
 
@@ -96,7 +96,24 @@ exports.updateGet = async (req, res)=> {
 };
 
 exports.addGamePost = async (req, res)=> {
-  await db.addGame(req.body.newGame);
+  const title = req.body.newGame;
+  
+  const newDevs = req.body.dev_name;
+  const normalizedDevs = [].concat(newDevs || []);
+  const newGenres = req.body.genre_name;
+  const normalizedGenres = [].concat(newGenres || []);
+  const price = req.body.price;
+  const stock = req.body.stock;
+
+  console.log(title, normalizedDevs, normalizedGenres, price, stock);
+
+  const result = await db.addGame(title, normalizedDevs, normalizedGenres, price, stock);
+  const gameID = result[0].game_id;
+
+  // const gameID = await db.getGameID(title);
+
+  console.log(gameID);
+  
   res.redirect('/update');
 };
 
