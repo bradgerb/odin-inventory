@@ -104,14 +104,17 @@ exports.addGamePost = async (req, res)=> {
   
   const newDevs = req.body.dev_name;
   const normalizedDevs = [].concat(newDevs || []);
-  const quotedArray = normalizedDevs.map(item => `'${item}'`);
-  const stringDevs = quotedArray.join(', ');
+  const quotedDevArray = normalizedDevs.map(item => `'${item}'`);
+  const stringDevs = quotedDevArray.join(', ');
   const devID = await db.getDevID(stringDevs);
   const normalizedDevID = normalizeSql(devID);
   
   const newGenres = req.body.genre_name;
   const normalizedGenres = [].concat(newGenres || []);
-  const stringGenres = normalizedGenres.join(', ');
+  const quotedGenreArray = normalizedGenres.map(item => `'${item}'`);
+  const stringGenres = quotedGenreArray.join(', ');
+  const genreID = await db.getGenreID(stringGenres);
+  const normalizedGenreID = normalizeSql(genreID);
 
   const price = req.body.price;
   const priceResult = await db.getPriceID(price);
@@ -119,12 +122,18 @@ exports.addGamePost = async (req, res)=> {
 
   const stock = req.body.stock;
 
-  const gameResult = await db.addGame(title, normalizedDevs, normalizedGenres, price, stock);
+  const gameResult = await db.addGame(title, stock, priceID);
   const gameID = gameResult[0].game_id;
 
-  // const gameID = await db.getGameID(title);
+  for(let i = 0; i < normalizedDevID.length; i++){
+    await db.addGameDevs(gameID, normalizedDevID[i]);
+  }
 
-  console.log(gameID, title, stringDevs, normalizedDevID, stringGenres, price, priceID, stock);
+  for(let i = 0; i < normalizedGenreID.length; i++){
+    await db.addGameGenres(gameID, normalizedGenreID[i]);
+  }
+  
+  // console.log(gameID, title, stringDevs, normalizedDevID, normalizedGenreID, price, priceID, stock);
   
   res.redirect('/update');
 };

@@ -57,9 +57,9 @@ async function getGames() {
   return rows;
 }
 
-async function addGame(title, newDev, newGenre, price, stock) {
+async function addGame(title, stock, price_id) {
   const { rows } = await pool.query(
-    "INSERT INTO games (title, stock) VALUES ($1, $2) RETURNING game_id;", [title, stock]
+    "INSERT INTO games (title, stock, price_id) VALUES ($1, $2, $3) RETURNING game_id;", [title, stock, price_id]
   )
   return rows
 }
@@ -118,6 +118,14 @@ async function removeGenre(genre_name) {
   await pool.query(`DELETE FROM genres WHERE genre_name = '${genre_name}'`);
 }
 
+async function getGenreID(genres) {
+  const { rows } = await pool.query(
+    `SELECT array_agg(genre_id) FROM genres \
+    WHERE genre_name IN (${genres});`
+  )
+  return rows
+}
+
 async function getPrices() {
   const { rows } = await pool.query(
     `SELECT DISTINCT price FROM prices \
@@ -142,6 +150,14 @@ async function removePrice(price) {
   await pool.query(`DELETE FROM prices WHERE price = '${price}'`);
 }
 
+async function addGameDevs(game_id, dev_id) {
+  await pool.query("INSERT INTO game_devs (game_id, dev_id) VALUES ($1, $2)", [game_id, dev_id]);
+}
+
+async function addGameGenres(game_id, genre_id) {
+  await pool.query("INSERT INTO game_genres (game_id, genre_id) VALUES ($1, $2)", [game_id, genre_id]);
+}
+
 module.exports = {
   getSearchedTitles,
 
@@ -159,9 +175,13 @@ module.exports = {
   getGenres,
   addGenre,
   removeGenre,
+  getGenreID,
 
   getPrices,
   addPrice,
   removePrice,
-  getPriceID
+  getPriceID,
+
+  addGameDevs,
+  addGameGenres
 };
