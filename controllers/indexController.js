@@ -50,6 +50,10 @@ const checkInStock = (input)=>{
   return inStockOnly
 }
 
+const normalizeSql = (array)=> {
+  return array[0].array_agg;
+}
+
 exports.indexGet = async (req, res) => {
   getAllData(req, res);
 };
@@ -100,19 +104,27 @@ exports.addGamePost = async (req, res)=> {
   
   const newDevs = req.body.dev_name;
   const normalizedDevs = [].concat(newDevs || []);
+  const quotedArray = normalizedDevs.map(item => `'${item}'`);
+  const stringDevs = quotedArray.join(', ');
+  const devID = await db.getDevID(stringDevs);
+  const normalizedDevID = normalizeSql(devID);
+  
   const newGenres = req.body.genre_name;
   const normalizedGenres = [].concat(newGenres || []);
+  const stringGenres = normalizedGenres.join(', ');
+
   const price = req.body.price;
+  const priceResult = await db.getPriceID(price);
+  const priceID = priceResult[0].price_id;
+
   const stock = req.body.stock;
 
-  console.log(title, normalizedDevs, normalizedGenres, price, stock);
-
-  const result = await db.addGame(title, normalizedDevs, normalizedGenres, price, stock);
-  const gameID = result[0].game_id;
+  const gameResult = await db.addGame(title, normalizedDevs, normalizedGenres, price, stock);
+  const gameID = gameResult[0].game_id;
 
   // const gameID = await db.getGameID(title);
 
-  console.log(gameID);
+  console.log(gameID, title, stringDevs, normalizedDevID, stringGenres, price, priceID, stock);
   
   res.redirect('/update');
 };
