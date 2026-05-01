@@ -24,21 +24,21 @@ CREATE TABLE IF NOT EXISTS games (
     title VARCHAR(50),
     stock INT,
     price_id INT,
-    FOREIGN KEY (price_id) REFERENCES prices(price_id)
+    FOREIGN KEY (price_id) REFERENCES prices(price_id) ON DELETE SET NULL
 );
 CREATE TABLE IF NOT EXISTS game_devs (
     game_id INT,
     dev_id INT,
     PRIMARY KEY (game_id, dev_id),
-    FOREIGN KEY (game_id) REFERENCES games(game_id),
-    FOREIGN KEY (dev_id) REFERENCES devs(dev_id)
+    FOREIGN KEY (game_id) REFERENCES games(game_id) ON DELETE CASCADE,
+    FOREIGN KEY (dev_id) REFERENCES devs(dev_id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS game_genres (
     game_id INT,
     genre_id INT,
     PRIMARY KEY (game_id, genre_id),
-    FOREIGN KEY (game_id) REFERENCES games(game_id),
-    FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
+    FOREIGN KEY (game_id) REFERENCES games(game_id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genres(genre_id) ON DELETE CASCADE
 );
 INSERT INTO prices (price) VALUES
 (0.00),
