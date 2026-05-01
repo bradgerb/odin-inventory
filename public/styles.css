@@ -97,3 +97,8 @@ body {
 .biggerButton {
     width: 100%;
 }
+
+.forceWrap {
+    flex-basis: 100%;
+    height: 0;
+}

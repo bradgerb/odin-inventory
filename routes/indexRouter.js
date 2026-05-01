@@ -7,6 +7,7 @@ indexRouter.post("/", indexController.indexPost);
 indexRouter.get("/update", indexController.updateGet);
 indexRouter.post("/addGame", indexController.addGamePost);
 indexRouter.post("/removeGame", indexController.removeGamePost);
+indexRouter.post("/updateGame", indexController.updateGamePost);
 indexRouter.post("/addDev", indexController.addDevPost);
 indexRouter.post("/removeDev", indexController.removeDevPost);
 indexRouter.post("/addGenre", indexController.addGenrePost);

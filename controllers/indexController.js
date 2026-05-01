@@ -102,7 +102,7 @@ exports.updateGet = async (req, res)=> {
 exports.addGamePost = async (req, res)=> {
   const title = req.body.newGame;
   
-  const newDevs = req.body.dev_name;
+  const newDevs = req.body.dev_name_add;
   let normalizedDevs;
   let quotedDevArray;
   let stringDevs;
@@ -116,7 +116,7 @@ exports.addGamePost = async (req, res)=> {
     normalizedDevID = normalizeSql(devID);
   }
   
-  const newGenres = req.body.genre_name;
+  const newGenres = req.body.genre_name_add;
   let normalizedGenres;
   let quotedGenreArray;
   let stringGenres;
@@ -156,6 +156,66 @@ exports.addGamePost = async (req, res)=> {
 
 exports.removeGamePost = async (req, res)=> {
   await db.removeGame(req.body.removeGame);
+  res.redirect('/update');
+};
+
+exports.updateGamePost = async (req, res)=> {
+  console.log(req.body);
+  const title = req.body.updateGame;
+
+  const newDevs = req.body.dev_name_update;
+  let normalizedDevs;
+  let quotedDevArray;
+  let stringDevs;
+  let devID;
+  let normalizedDevID;
+  if(newDevs) {
+    normalizedDevs = [].concat(newDevs || []);
+    quotedDevArray = normalizedDevs.map(item => `'${item}'`);
+    stringDevs = quotedDevArray.join(', ');
+    devID = await db.getDevID(stringDevs);
+    normalizedDevID = normalizeSql(devID);
+  }
+
+  const newGenres = req.body.genre_name_update;
+  let normalizedGenres;
+  let quotedGenreArray;
+  let stringGenres;
+  let genreID;
+  let normalizedGenreID;
+  if(newGenres) {
+    normalizedGenres = [].concat(newGenres || []);
+    quotedGenreArray = normalizedGenres.map(item => `'${item}'`);
+    stringGenres = quotedGenreArray.join(', ');
+    genreID = await db.getGenreID(stringGenres);
+    normalizedGenreID = normalizeSql(genreID);
+  }
+
+  const price = req.body.price;
+  const priceResult = await db.getPriceID(price);
+  const priceID = priceResult[0].price_id;
+
+  const stock = req.body.stock;
+//
+  const gameResult = await db.updateGame(title, stock, priceID);
+  const gameID = gameResult[0].game_id;
+
+  await db.removeGameDevs(gameID);
+  if(normalizedDevID) {
+    for(let i = 0; i < normalizedDevID.length; i++){
+      await db.addGameDevs(gameID, normalizedDevID[i]);
+    }
+  }
+
+  await db.removeGameGenres(gameID);
+  if(normalizedGenreID) {
+    for(let i = 0; i < normalizedGenreID.length; i++){
+      await db.addGameGenres(gameID, normalizedGenreID[i]);
+    }
+  }
+
+  console.log(title, normalizedDevID, normalizedGenreID, priceID, stock);
+
   res.redirect('/update');
 };
 

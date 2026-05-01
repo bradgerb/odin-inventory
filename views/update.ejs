@@ -14,19 +14,19 @@
           <input type="text" id="newGame" name="newGame" required><br><br>
           <div class="checkboxContainer">
             <div>Developer(s):<br>
-            <% let devCount = 0 %>
+            <% let devAddCount = 0 %>
             <% devs.forEach((dev) => { %>
-              <input type="checkbox" id="dev_<%= devCount %>" name="dev_name" value="<%= dev.dev_name %>">
-              <label for="dev_<%= devCount %>"><%= dev.dev_name %></label><br>
-              <% devCount++ %>
+              <input type="checkbox" id="dev_<%= devAddCount %>_add" name="dev_name_add" value="<%= dev.dev_name %>">
+              <label for="dev_<%= devAddCount %>_add"><%= dev.dev_name %></label><br>
+              <% devAddCount++ %>
             <% }) %>
             </div><br>
             <div>Genre(s):<br>
-            <% let genreCount = 0 %>
+            <% let genreAddCount = 0 %>
             <% genres.forEach((genre) => { %>
-              <input type="checkbox" id="genre_<%= genreCount %>" name="genre_name" value="<%= genre.genre_name %>">
-              <label for="genre_<%= genreCount %>"><%= genre.genre_name %></label><br>
-              <% genreCount++ %>
+              <input type="checkbox" id="genre_<%= genreAddCount %>_add" name="genre_name_add" value="<%= genre.genre_name %>">
+              <label for="genre_<%= genreAddCount %>_add"><%= genre.genre_name %></label><br>
+              <% genreAddCount++ %>
             <% }) %>
             </div><br>
           </div><br>
@@ -43,7 +43,7 @@
           <button type="submit" class="biggerButton">Add</button>
         </form><br>
         <form method="POST" action="removeGame">
-          <label for="removeGame">Remove a game:</label>
+          <label for="removeGame">Remove a game:</label><br>
           <select name="removeGame" id="removeGame">
             <% games.forEach((game) => { %>
               <option value='<%= game.title %>''><%= game.title %></option>
@@ -52,6 +52,49 @@
           <button type="submit">Remove</button>
         </form>
       </div>
+
+      <div class="formContainer">
+        <div>Update game:</div>
+        <form method="POST" action="/updateGame">
+          <label for="updateGame">Title:</label>
+          <select name="updateGame" id="updateGame">
+            <% games.forEach((game) => { %>
+              <option value='<%= game.title %>''><%= game.title %></option>
+            <% }) %>
+          </select><br><br>
+          <div class="checkboxContainer">
+            <div>Developer(s):<br>
+            <% let devUpdateCount = 0 %>
+            <% devs.forEach((dev) => { %>
+              <input type="checkbox" id="dev_<%= devUpdateCount %>_update" name="dev_name_update" value="<%= dev.dev_name %>">
+              <label for="dev_<%= devUpdateCount %>_update"><%= dev.dev_name %></label><br>
+              <% devUpdateCount++ %>
+            <% }) %>
+            </div><br>
+            <div>Genre(s):<br>
+            <% let genreUpdateCount = 0 %>
+            <% genres.forEach((genre) => { %>
+              <input type="checkbox" id="genre_<%= genreUpdateCount %>_update" name="genre_name_update" value="<%= genre.genre_name %>">
+              <label for="genre_<%= genreUpdateCount %>_update"><%= genre.genre_name %></label><br>
+              <% genreUpdateCount++ %>
+            <% }) %>
+            </div><br>
+          </div><br>
+          <div class="priceAndStockContainer">
+            <label for="price">Price:</label>
+            <select name="price" id="price">
+              <% prices.forEach((price) => { %>
+                <option value='<%= price.price %>''><%= price.price %></option>
+              <% }) %>
+            </select>
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" min="0" max="999" value="0">
+          </div><br>
+          <button type="submit" class="biggerButton">Update</button>
+        </form>
+      </div>
+
+      <div class="forceWrap"></div>
 
       <div class="formContainer">
         <form method="POST" action="/addDev">

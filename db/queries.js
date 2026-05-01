@@ -68,6 +68,16 @@ async function removeGame(title) {
   await pool.query(`DELETE FROM games WHERE title = '${title}'`);
 }
 
+async function updateGame(title, stock, price_id) {
+  const { rows } = await pool.query(
+    `UPDATE games \
+    SET stock = ${stock}, price_id = ${price_id}\
+    WHERE title = '${title}' \
+    RETURNING game_id;`
+  )
+  return rows
+}
+
 async function getDevs() {
   const { rows } = await pool.query(
     `SELECT DISTINCT dev_name FROM devs \
@@ -154,8 +164,16 @@ async function addGameDevs(game_id, dev_id) {
   await pool.query("INSERT INTO game_devs (game_id, dev_id) VALUES ($1, $2)", [game_id, dev_id]);
 }
 
+async function removeGameDevs(game_id) {
+  await pool.query(`DELETE FROM game_devs WHERE game_id = '${game_id}'`);
+}
+
 async function addGameGenres(game_id, genre_id) {
   await pool.query("INSERT INTO game_genres (game_id, genre_id) VALUES ($1, $2)", [game_id, genre_id]);
+}
+
+async function removeGameGenres(game_id) {
+  await pool.query(`DELETE FROM game_genres WHERE game_id = '${game_id}'`);
 }
 
 module.exports = {
@@ -164,6 +182,7 @@ module.exports = {
   getGames,
   addGame,
   removeGame,
+  updateGame,
   
   getDevsFromTitle,
   getDevs,
@@ -183,5 +202,7 @@ module.exports = {
   getPriceID,
 
   addGameDevs,
-  addGameGenres
+  removeGameDevs,
+  addGameGenres,
+  removeGameGenres
 };
