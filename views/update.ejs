@@ -84,7 +84,7 @@
             <label for="price">Price:</label>
             <select name="price" id="price">
               <% prices.forEach((price) => { %>
-                <option value='<%= price.price %>''><%= price.price %></option>
+                <option value='<%= price.price %>'><%= price.price %></option>
               <% }) %>
             </select>
             <label for="stock">Stock:</label>
@@ -106,7 +106,7 @@
           <label for="removeDev">Remove a developer:</label>
           <select name="removeDev" id="removeDev">
             <% devs.forEach((dev) => { %>
-              <option value='<%= dev.dev_name %>''><%= dev.dev_name %></option>
+              <option value='<%= dev.dev_name %>'><%= dev.dev_name %></option>
             <% }) %>
             </select>
           <button type="submit">Remove</button>
@@ -123,7 +123,7 @@
           <label for="removeGenre">Remove a genre:</label>
           <select name="removeGenre" id="removeGenre">
             <% genres.forEach((genre) => { %>
-              <option value='<%= genre.genre_name %>''><%= genre.genre_name %></option>
+              <option value='<%= genre.genre_name %>'><%= genre.genre_name %></option>
             <% }) %>
             </select>
           <button type="submit">Remove</button>
@@ -140,30 +140,33 @@
           <label for="removePrice">Remove a price:</label>
           <select name="removePrice" id="removePrice">
             <% prices.forEach((price) => { %>
-              <option value='<%= price.price %>''><%= price.price %></option>
+              <option value='<%= price.price %>'><%= price.price %></option>
             <% }) %>
             </select>
           <button type="submit">Remove</button>
         </form>
       </div>
-
-      <!-- <div class="formContainer">
-        <form method="POST" action="/addGenre">
-          <label for="newGenre">Add new genre:</label>
-          <input type="text" id="newGenre" name="newGenre">
-          <button type="submit">Add</button>
-        </form>
-      </div>
-
-      <div class="formContainer">
-        <form method="POST" action="/addGenre">
-          <label for="newGenre">Add new genre:</label>
-          <input type="text" id="newGenre" name="newGenre">
-          <button type="submit">Add</button>
-        </form>
-      </div> -->
-          
     </div>
+
+    <div class='confirmUpdate hide'>
+      <form action="">
+        <label for="password">To confirm, please enter password</label><br>
+        <input type="text" name="password" id="password"><br>
+        <div>
+          <button type="button" onclick="toggleHide()">Cancel</button>
+          <button type="submit">Confirm</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function toggleHide() {
+        const backgroundContainer = document.querySelector('.formContainers');
+        const hiddenContainer = document.querySelector('.confirmUpdate');
+        hiddenContainer.classList.toggle('hide');
+        backgroundContainer.classList.toggle('inert');
+      }
+    </script>
 
     <%- include("partials/footer.ejs") %>
   </body>
